@@ -10,10 +10,7 @@ public class MinimalTree {
 
 	public static void main(String[] args) {
 		int [] input = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ,10};
-		int mid = (input.length - 1) / 2;
-		Tree tree = new Tree(new Node(input[mid]));
-		minimalTree(input, mid - 1, tree.root);
-		minimalTree(input, mid + 1, tree.root);
+		Tree tree = new Tree(minimalTree(input, 0, input.length - 1));
 		
 		System.out.println("Root: " + tree.root.val);
 		System.out.println("Left size: " + tree.sizeLeft());
@@ -67,20 +64,14 @@ public class MinimalTree {
 		}
 	}
 	
-	private static void minimalTree(int[] input, int i, Node node) {
-		if (i >= 0 && i <= input.length - 1) {
-			if (input[i] < node.val) {
-				if (node.left == null) {
-					node.left = new Node(input[i]);
-				}
-				minimalTree(input, i - 1, node.left);
-			}
-			if (input[i] > node.val) {
-				if (node.right == null) {
-					node.right = new Node(input[i]);
-				}
-				minimalTree(input, i + 1, node.right);
-			}
+	private static Node minimalTree(int[] input, int i, int j) {
+		if (j < i) {
+			return null;
 		}
+		int mid = (j + i) / 2;
+		Node node = new Node(input[mid]);
+		node.left = minimalTree(input, i, mid - 1);
+		node.right = minimalTree(input, mid + 1, j);
+		return node;
 	}
 }

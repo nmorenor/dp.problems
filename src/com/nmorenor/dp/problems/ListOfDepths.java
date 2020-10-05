@@ -39,7 +39,7 @@ public class ListOfDepths {
 	public static void main(String[] args) {
 		int[] input = new int[] { 20, 19, 21, 18, 22, 17, 23, 16, 24, 15, 25 }; // kind of a heap
 		Tree tree = new Tree(new Node(input[0]));
-		buildTree(input, 0, 1, tree.root, false);
+		buildTree(input, 1, tree.root);
 		listOfDepths(tree.root);
 		
 	}
@@ -61,21 +61,23 @@ public class ListOfDepths {
 		System.out.println(node.childNodes);
 	}
 	
-	private static void buildTree(int[] input, int i, int depth, Node node, boolean postOrder) {
-		if (node == null || i >= input.length) {
+	private static void buildTree(int[] input, int index, Node node) {
+		if (node == null) {
 			return;
 		}
-		if (i + 1 <= (input.length - 1)) {
-			node.left = new Node(input[i + 1]);
-		}
-		if ((i + 2) <= (input.length - 1)) {
-			node.right = new Node(input[i + 2]);
-		}
-		int nextDepth = depth + 1;
-		buildTree(input, postOrder ? (1 << nextDepth) : (1 << nextDepth) - 2, nextDepth, node.left, postOrder);
-		if (i > 0) {
+		if (index >= input.length) {
 			return;
 		}
-		buildTree(input, (1 << nextDepth), nextDepth, node.right, true);
+		if (index < 0) {
+			return;
+		}
+		if (index <= input.length - 1) {
+			node.left = new Node(input[index]);
+		}
+		if ((index + 1) <= input.length - 1) {
+			node.right = new Node(input[index + 1]);
+		}
+		buildTree(input, (index * 2) + 1, node.left);
+		buildTree(input, ((index + 1) * 2) + 1, node.right);
 	}
 }

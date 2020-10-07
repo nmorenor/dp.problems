@@ -102,6 +102,43 @@ public class ValidateBST {
 			h.right.color = BLACK;
 		}
 		
+		/**
+		 * Using recursion Depth first search
+		 * @param node
+		 * @return
+		 */
+		public boolean isBST(Node node) {
+			if (node == null) {
+				return true;
+			}
+			
+			return isBST(node, true) && isBST(node, false);
+		}
+		
+		public boolean isBST(Node node, boolean preOrder) {
+			if (preOrder) {
+				if (node.left != null && root.val < node.left.val) {
+					return false;
+				}
+				if (node.left != null && !isBST(node.left, preOrder)) {
+					return false;
+				}
+			} else {
+				if (node.right != null && root.val > node.right.val) {
+					return false;
+				}
+				
+				if (node.right != null && !isBST(node.right, preOrder)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		/**
+		 * In-line using Breath first search
+		 * @return
+		 */
 		public boolean isBST() {
 			if (root.left != null) {
 				Queue<Node> bfs = new LinkedList<Node>();
@@ -150,6 +187,7 @@ public class ValidateBST {
 			tree.add(input[i]);
 		}
 		System.out.println(tree.isBST());
+		System.out.println(tree.isBST(tree.root));
 	}
 	
 	// build tree but not a BST

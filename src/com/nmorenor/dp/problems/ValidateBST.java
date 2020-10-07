@@ -15,9 +15,10 @@ public class ValidateBST {
 		public static boolean RED = true;
 		public static boolean BLACK = false;
 		
+		@SuppressWarnings("unused")
 		public static class Node {
 			
-			public final int val;			
+			public final int val;
 			public Node parent;
 			public Node left;
 			public Node right;
@@ -64,6 +65,12 @@ public class ValidateBST {
 			if (isRed(node.left) && isRed(node.right)) {
 				flipColors(node);
 			}
+			if (node.left != null) {
+				node.left.parent = node;
+			}
+			if (node.right != null) {
+				node.right.parent = node;
+			}
 			return node;
 		}
 		
@@ -78,8 +85,6 @@ public class ValidateBST {
 			Node x = h.right;
 			h.right = x.left;
 			x.left = h;
-			x.parent = h.parent;
-			h.parent = x;
 			x.color = h.color;
 			h.color = RED;
 			return x;
@@ -89,8 +94,6 @@ public class ValidateBST {
 			Node x = h.left;
 			h.left = x.right;
 			x.right = h;
-			x.parent = h.parent;
-			h.parent = x;
 			x.color = h.color;
 			h.color = RED;
 			return x;

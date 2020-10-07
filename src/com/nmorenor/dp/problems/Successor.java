@@ -107,7 +107,7 @@ public class Successor {
 			h.right.color = BLACK;
 		}
 		
-		public int floor(int value) {
+		public int ceil(int value) {
 			Node found = find(root, value);
 			if (found == null) {
 				return Integer.MIN_VALUE;
@@ -167,10 +167,10 @@ public class Successor {
 		for (int i = 0; i < input.length; i++) {
 			tree.add(input[i]);
 		}
-		int nextSucessor = tree.floor(3);
+		int nextSucessor = tree.ceil(3);
 		while (nextSucessor > Integer.MIN_VALUE) {
 			System.out.println(nextSucessor);
-			nextSucessor = tree.floor(nextSucessor);
+			nextSucessor = tree.ceil(nextSucessor);
 		}
 	}
 }

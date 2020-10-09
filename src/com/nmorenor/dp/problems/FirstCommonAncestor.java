@@ -73,12 +73,14 @@ public class FirstCommonAncestor {
 		System.out.println(result.get(2));
 	}
 	
-	private static void firstCommonAncestor(Tree.Node pev, Tree.Node node, int p, int q, Set<Tree.Node> onStack, List<Tree.Node> collected) {
+	private static void firstCommonAncestor(Tree.Node prev, Tree.Node node, int p, int q, Set<Tree.Node> onStack, List<Tree.Node> collected) {
 		if (collected.size() >= 2) {
 			return;
 		}
 		if (node.val == p || node.val == q) {
-			onStack.add(pev);
+			if (prev != null) {
+				onStack.add(prev);
+			}
 			collected.add(node);
 			return;
 		}

@@ -1,6 +1,8 @@
 package com.nmorenor.dp.problems;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * An array a contains all the integers from 0 to n, except for one number which
@@ -31,21 +33,33 @@ public class MissingNumber {
 		System.out.println(Arrays.toString(in));
 		System.out.println("Missing: " + String.valueOf(randomNumber));
 		
-		int[] bits = int2byte(in);
-		int missingNumber = getMissingNumber(bits, 32, 0);
+		List<int[]> bits = int2bit(in);
+		int missingNumber = getMissingNumber(bits, 31);
 		System.out.println(missingNumber);
 	}
 	
-	private static int getMissingNumber(int[] bits, int i, int prev) {
-		int targetIndex = i + 31;
-		if (bits.length < targetIndex) {
-			throw new IllegalArgumentException();
+	private static int getMissingNumber(List<int[]> bits, int i) {
+		if (i < 0) {
+			return 0;
 		}
-		int next = bits[targetIndex];
-		if (prev == next) {
-			return getIntValue(bits, i) - 1;
+		List<int[]> oneBits = new ArrayList<int[]>();
+		List<int[]> zeroBits = new ArrayList<int[]>();
+		
+		for (int[] next : bits) {
+			if (next[i] == 0) {
+				zeroBits.add(next);
+			} else {
+				oneBits.add(next);
+			}
 		}
-		return getMissingNumber(bits, targetIndex + 1, next);
+		
+		if (zeroBits.size() <= oneBits.size()) {
+			int v = getMissingNumber(zeroBits, i - 1);
+			return (v << 1) | 0;
+		} else {
+			int v = getMissingNumber(oneBits, i - 1);
+			return (v << 1) | 1;
+		}
 	}
 
 	private static int getRandomNumber(int min, int max) {
@@ -63,7 +77,7 @@ public class MissingNumber {
 		return res.toString();
 	}
 	
-	private static int getIntValue(int[] input, int i) {
+	public static int getIntValue(int[] input, int i) {
 		int count = 0;
 		int result = 0;
 		
@@ -76,15 +90,15 @@ public class MissingNumber {
 		return result;
 	}
 
-	private static int[] int2byte(int[] src) {
+	private static List<int[]> int2bit(int[] src) {
 		int srcLength = src.length;
-		StringBuilder builder = new StringBuilder();
+		List<int[]> result = new ArrayList<int[]>();
 
 		for (int i = 0; i < srcLength; i++) {
 			String binaryString = toBinaryString(src[i]);
-			builder.append(binaryString);
+			result.add(binaryString.chars().map(x -> x - '0').toArray());
 		}
-		int[] array = builder.toString().chars().map(x -> x - '0').toArray();
-		return array;
+		
+		return result;
 	}
 }

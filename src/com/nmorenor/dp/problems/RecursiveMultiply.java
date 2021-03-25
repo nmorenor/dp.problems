@@ -31,7 +31,7 @@ public class RecursiveMultiply {
 				sol[0] += n << count;
 			}
 			
-			solve(n, m / 2, count + 1, sol);;
+			solve(n, m / 2, count + 1, sol);
 		}
 	}
 }

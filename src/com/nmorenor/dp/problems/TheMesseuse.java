@@ -29,7 +29,7 @@ public class TheMesseuse {
 		}
 		if (memo[index] == 0) {
 			int bestWith = massages[index] + maxMinutes(massages, index + 2, memo);
-			int bestWithout = massages[index] + maxMinutes(massages, index + 1, memo);
+			int bestWithout = maxMinutes(massages, index + 1, memo);
 			memo[index] = Math.max(bestWith, bestWithout);
 		}
 		
